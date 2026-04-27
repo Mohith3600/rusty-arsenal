@@ -1,0 +1,13 @@
+[book]
+title = "Rusty Arsenal"
+authors = ["Mohith"]
+language = "en"
+src = "."
+
+[output.html]
+default-theme = "navy"
+git-repository-url = "https://github.com/Mohith3600/rusty-arsenal"
+edit-url-template = "https://github.com/Mohith3600/rusty-arsenal/edit/main/{path}"
+
+[build]
+build-dir = "book"
