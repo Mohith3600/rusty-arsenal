@@ -2,8 +2,6 @@
 
 [🏠 Home](./README.md)
 
----
-
 # 🦀 Rustlings Solutions
 
 - [00 — Intro](./rustlings/00_intro/README.md)
@@ -30,13 +28,9 @@
 - [21 — Macros](./rustlings/21_macros/README.md)
 - [22 — Clippy](./rustlings/22_clippy/README.md)
 
----
-
 # 💀 Offensive Rust
 
 - [Coming Soon](./offensive-rust/README.md)
-
----
 
 # 🛡️ Defensive Rust 
 
