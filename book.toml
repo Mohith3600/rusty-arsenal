@@ -1,6 +1,6 @@
 [book]
 title = "Rusty Arsenal"
-author = "Mohith"
+author = ["Mohith"]
 language = "en"
 src = "src"
 
