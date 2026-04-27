@@ -1,0 +1,10 @@
+[book]
+title = "Rusty Arsenal"
+author = "Mohith"
+language = "en"
+src = "src"
+
+[output.html]
+theme = "coal"
+git-repository-url = "https://github.com/YOURNAME/rusty-arsenal"
+edit-url-template = "https://github.com/YOURNAME/rusty-arsenal/edit/main/{path}"
