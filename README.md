@@ -1,6 +1,6 @@
 # 🦀 Rusty Arsenal
 
-> Rustlings solutions with deep explanations → Offensive Rust techniques →  
+> Rustlings solutions with deep explanations → Offensive Rust techniques →
 > Defensive EDR-grade Rust. A practical learning journey from zero to systems security.
 
 ## What's Here
