@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-0da565e4.js";
+            window.path_to_searchindex_js = "searchindex-d5f7e573.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-6b673b1f.js"></script>
@@ -237,13 +237,12 @@ No ownership, no types, no borrow checker yet. Just you, the terminal, and your 
 do — try adding a line like this and watch the output change live:</p>
 <pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>println!("My name is [your name] and I'm learning Rust for EDR development.");
+</span>println!("My name is [your name]");
 <span class="boring">}</span></code></pre>
 <p>That’s the whole point of intro1: prove to yourself that the edit-compile-run loop works.</p>
 <h3 id="-concepts-introduced"><a class="header" href="#-concepts-introduced">🧠 Concepts Introduced</a></h3>
 <p><strong><code>fn main()</code></strong> — Every Rust executable starts here. It’s the entry point, identical
-in purpose to <code>main()</code> in C or Go’s <code>func main()</code>. For your EDR agent, <code>main()</code> will
-eventually bootstrap the ETW collector, spawn threads, and hand off to the core event loop.</p>
+in purpose to <code>main()</code> in C or Go’s <code>func main()</code>.</p>
 <p><strong><code>println!</code></strong> — The <code>!</code> means this is a <strong>macro</strong>, not a regular function. Macros in
 Rust are code that writes code at compile time. <code>println!</code> expands into code that
 formats a string and writes it to stdout with a newline. You’ll use its sibling
