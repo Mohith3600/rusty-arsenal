@@ -40,7 +40,7 @@ No code change required. Just delete the marker comment and move on. But before 
 do — try adding a line like this and watch the output change live:
 
 ```rust
-println!("My name is [your name] and I'm learning Rust for EDR development.");
+println!("My name is [your name]");
 ```
 
 That's the whole point of intro1: prove to yourself that the edit-compile-run loop works.
@@ -48,8 +48,7 @@ That's the whole point of intro1: prove to yourself that the edit-compile-run lo
 ### 🧠 Concepts Introduced
 
 **`fn main()`** — Every Rust executable starts here. It's the entry point, identical
-in purpose to `main()` in C or Go's `func main()`. For your EDR agent, `main()` will
-eventually bootstrap the ETW collector, spawn threads, and hand off to the core event loop.
+in purpose to `main()` in C or Go's `func main()`. 
 
 **`println!`** — The `!` means this is a **macro**, not a regular function. Macros in
 Rust are code that writes code at compile time. `println!` expands into code that
