@@ -1,10 +1,10 @@
 [book]
 title = "Rusty Arsenal"
-author = ["Mohith"]
+authors = ["Mohith"]
 language = "en"
 src = "src"
 
 [output.html]
 theme = "coal"
-git-repository-url = "https://github.com/YOURNAME/rusty-arsenal"
-edit-url-template = "https://github.com/YOURNAME/rusty-arsenal/edit/main/{path}"
+git-repository-url = "https://github.com/Mohith3600/rusty-arsenal"
+edit-url-template = "https://github.com/Mohith3600/rusty-arsenal/edit/main/{path}"
