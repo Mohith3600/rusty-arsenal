@@ -1,0 +1,61 @@
+name: Fix Repo Structure
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Move files into src/
+        run: |
+          mkdir -p src/rustlings/00_intro
+          mkdir -p src/rustlings/01_variables
+          mkdir -p src/rustlings/02_functions
+          mkdir -p src/rustlings/03_if
+          mkdir -p src/rustlings/04_primitive_types
+          mkdir -p src/rustlings/05_vecs
+          mkdir -p src/rustlings/06_move_semantics
+          mkdir -p src/rustlings/07_structs
+          mkdir -p src/rustlings/08_enums
+          mkdir -p src/rustlings/09_strings
+          mkdir -p src/rustlings/10_modules
+          mkdir -p src/rustlings/11_hashmaps
+          mkdir -p src/rustlings/12_options
+          mkdir -p src/rustlings/13_error_handling
+          mkdir -p src/rustlings/14_generics
+          mkdir -p src/rustlings/15_traits
+          mkdir -p src/rustlings/16_lifetimes
+          mkdir -p src/rustlings/17_tests
+          mkdir -p src/rustlings/18_iterators
+          mkdir -p src/rustlings/19_smart_pointers
+          mkdir -p src/rustlings/20_threads
+          mkdir -p src/rustlings/21_macros
+          mkdir -p src/rustlings/22_clippy
+          mkdir -p src/offensive-rust
+          mkdir -p src/defensive-rust
+
+          # Move SUMMARY.md and README.md
+          [ -f SUMMARY.md ] && git mv SUMMARY.md src/SUMMARY.md || true
+          [ -f README.md ] && git mv README.md src/README.md || true
+
+          # Move all rustlings folders
+          for folder in rustlings/*/; do
+            [ -d "$folder" ] && git mv "$folder" "src/$folder" || true
+          done
+
+          # Move offensive and defensive folders
+          [ -d offensive-rust ] && git mv offensive-rust src/offensive-rust || true
+          [ -d defensive-rust ] && git mv defensive-rust src/defensive-rust || true
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "fix: move all files into src/ for mdBook"
+          git push
