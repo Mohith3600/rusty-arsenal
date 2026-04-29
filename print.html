@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-025b064b.js";
+            window.path_to_searchindex_js = "searchindex-972934a1.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-6b673b1f.js"></script>
@@ -359,7 +359,7 @@ println!("x has the value of {X}");
 
 </code></pre>
 <h3 id="-concepts-introduced-2"><a class="header" href="#-concepts-introduced-2">🧠 Concepts Introduced</a></h3>
-<p><strong><code>let</code></strong> - Let is a keyword in Rust. It let’s you bind a value to variable or a statement. It covers the conept of shadowing.</p>
+<p><strong><code>let</code></strong> - Let is a keyword in Rust. It let’s you bind a value to variable or a statement. It covers the concept of shadowing.</p>
 <h2 id="exercise-02-variables02rs"><a class="header" href="#exercise-02-variables02rs">Exercise 02 variables02.rs</a></h2>
 <pre><code>fn main() {
     // TODO: Change the line below to fix the compiler error.
@@ -393,7 +393,7 @@ if x == 10 {
 
 </code></pre>
 <h3 id="-concepts-introduced-1-1"><a class="header" href="#-concepts-introduced-1-1">🧠 Concepts Introduced</a></h3>
-<p><strong>Initialization</strong> It is when you declare a variable and assign a value to it. When you declare a variable it creates a memory space on the RAM. This causes compiler to panic. So instead of reading the value from the memory address Rust compiler forces you to assign a value to the decalred variable. This security feature helps to not crash the program.</p>
+<p><strong>Initialization</strong> It is when you declare a variable and assign a value to it. When you declare a variable it creates a memory space on the RAM. This causes compiler to panic. So instead of reading the value from the memory address Rust compiler forces you to assign a value to the declared variable. This security feature helps to not crash the program.</p>
 <h2 id="exercise-03-variables03rs"><a class="header" href="#exercise-03-variables03rs">Exercise 03 variables03.rs</a></h2>
 <pre><code>fn main() {
     // TODO: Change the line below to fix the compiler error.
@@ -436,7 +436,7 @@ fn main() {
 }
 </code></pre>
 <h3 id="-concepts-introduced-3"><a class="header" href="#-concepts-introduced-3">🧠 Concepts Introduced</a></h3>
-<p><strong><code>mut</code></strong> - By default the variables decalred in the Rust immutable. Once they are declared values cannot be changed. If user wants to use a same variable multiple times <code>mut</code> comes to play.</p>
+<p><strong><code>mut</code></strong> - By default the variables declared in the Rust immutable. Once they are declared values cannot be changed. If user wants to use a same variable multiple times <code>mut</code> comes to play.</p>
 <h2 id="exercise-05-variables5rs"><a class="header" href="#exercise-05-variables5rs">Exercise 05 variables5.rs</a></h2>
 <pre><code>fn main() {
     let number = "T-H-R-E-E"; // Don't change this line
@@ -461,28 +461,31 @@ fn main() {
 
 </code></pre>
 <h3 id="-concepts-introduced-4"><a class="header" href="#-concepts-introduced-4">🧠 Concepts Introduced</a></h3>
-<p><strong>Shadowing</strong>  - Shadowing lets you use a variable twice even with different data types.  Shadowing and Mutability operatos at different level and are used for different purposes. In order to use Mutability we need to use <code>let mut </code> keyword. Let’s say a variable is score is declared with value 10 and in next line we declare score with 5 it works. But if we change the data type as “15” it will not work because  once declared data type is fixed it cannot be changed. In case of shadowing it’s completely different variables can have different values. Once declared they are overshadowed by previous variables. Shadowing is useful when we want to use a variable with same name temporarily inside a scope. Variables must be used <code>let</code> keyword.</p>
-<h2 id="exercise-06-variables06rs"><a class="header" href="#exercise-06-variables06rs">Exercise 06 variables06.rs</a></h2>
-<pre><code>// TODO: Change the line below to fix the compiler error.
-const NUMBER = 3;
-
-fn main() {
-    println!("Number: {NUMBER}");
-}
+<p><strong>Shadowing</strong>  - Shadowing lets you use a variable twice even with different data types.  Shadowing and Mutability operates at different level and are used for different purposes. In order to use Mutability we need to use <code>let mut </code> keyword. Let’s say a variable is score is declared with value 10 and in next line we declare score with 5 it works. But if we change the data type as “15” it will not work because once declared data type is fixed it cannot be changed. In case of shadowing it’s completely different variables can have different values. Once declared they are overshadowed by previous variables. Shadowing is useful when we want to use a variable with same name temporarily inside a scope. Variables must be used <code>let</code> keyword.</p>
+<pre><code>## Exercise 06 variables06.rs
 
 </code></pre>
-<h3 id="-why-it-needs-fixing-3"><a class="header" href="#-why-it-needs-fixing-3">❌ Why It Needs Fixing</a></h3>
-<p>Constants that are declared are needs to implicity declared</p>
-<h3 id="-solution-5"><a class="header" href="#-solution-5">✅ Solution</a></h3>
-<pre><code>// TODO: Change the line below to fix the compiler error.
-const NUMBER:u8 = 3;
+<p>// TODO: Change the line below to fix the compiler error.
+const NUMBER = 3;</p>
+<p>fn main() {
+println!(“Number: {NUMBER}”);
+}</p>
+<pre><code>
+### ❌ Why It Needs Fixing
+Constants that are declared are needs to implicitly declared
 
-fn main() {
-    println!("Number: {NUMBER}");
-}
+
+### ✅ Solution
+
 </code></pre>
-<h3 id="-concepts-introduced-5"><a class="header" href="#-concepts-introduced-5">🧠 Concepts Introduced</a></h3>
-<p><strong>const</strong> - Till now we have came across variables and different types. Now we are moving to constants <code>const</code>. To declare a constant type annotation is mandatory. Once a constant is declared the values cannot be changed. There ar types of constants Global and local constants. Global constants are mostly decalred at the start of the program. Value can be accessed throughout the program. Local constants can be within the scope of the function block.</p>
+<p>// TODO: Change the line below to fix the compiler error.
+const NUMBER:u8 = 3;</p>
+<p>fn main() {
+println!(“Number: {NUMBER}”);
+}</p>
+<pre><code>### 🧠 Concepts Introduced
+**const** - Till now we have came across variables and different types. Now we are moving to constants ```const```. To declare a constant type annotation is mandatory. Once a constant is declared the values cannot be changed. There are 2  types of constants Global and local constants. Global constants are mostly declared at the start of the program. Value can be accessed throughout the program. Local constants can be within the scope of the function block.
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="01--functions"><a class="header" href="#01--functions">01 — Functions</a></h1>
 <p>Coming soon.</p>
