@@ -23,7 +23,7 @@ println!("x has the value of {X}");
 
 ```
 ### 🧠 Concepts Introduced
-**`let`** - Let is a keyword in Rust. It let's you bind a value to variable or a statement. It covers the conept of shadowing.  
+**`let`** - Let is a keyword in Rust. It let's you bind a value to variable or a statement. It covers the concept of shadowing.  
 
 ## Exercise 02 variables02.rs
 
@@ -62,7 +62,7 @@ if x == 10 {
 ```
 
 ### 🧠 Concepts Introduced
-**Initialization** It is when you declare a variable and assign a value to it. When you declare a variable it creates a memory space on the RAM. This causes compiler to panic. So instead of reading the value from the memory address Rust compiler forces you to assign a value to the decalred variable. This security feature helps to not crash the program.
+**Initialization** It is when you declare a variable and assign a value to it. When you declare a variable it creates a memory space on the RAM. This causes compiler to panic. So instead of reading the value from the memory address Rust compiler forces you to assign a value to the declared variable. This security feature helps to not crash the program.
 
 ## Exercise 03 variables03.rs
 ```
@@ -117,7 +117,7 @@ fn main() {
 
 
 ### 🧠 Concepts Introduced
-**```mut```** - By default the variables decalred in the Rust immutable. Once they are declared values cannot be changed. If user wants to use a same variable multiple times ```mut``` comes to play. 
+**```mut```** - By default the variables declared in the Rust immutable. Once they are declared values cannot be changed. If user wants to use a same variable multiple times ```mut``` comes to play. 
 
 ## Exercise 05 variables5.rs
 ```
@@ -148,9 +148,9 @@ fn main() {
 
 ```
 ### 🧠 Concepts Introduced
-**Shadowing**  - Shadowing lets you use a variable twice even with different data types.  Shadowing and Mutability operatos at different level and are used for different purposes. In order to use Mutability we need to use ```let mut ``` keyword. Let's say a variable is score is declared with value 10 and in next line we declare score with 5 it works. But if we change the data type as "15" it will not work because  once declared data type is fixed it cannot be changed. In case of shadowing it's completely different variables can have different values. Once declared they are overshadowed by previous variables. Shadowing is useful when we want to use a variable with same name temporarily inside a scope. Variables must be used ```let``` keyword. 
+**Shadowing**  - Shadowing lets you use a variable twice even with different data types.  Shadowing and Mutability operates at different level and are used for different purposes. In order to use Mutability we need to use ```let mut ``` keyword. Let's say a variable is score is declared with value 10 and in next line we declare score with 5 it works. But if we change the data type as "15" it will not work because once declared data type is fixed it cannot be changed. In case of shadowing it's completely different variables can have different values. Once declared they are overshadowed by previous variables. Shadowing is useful when we want to use a variable with same name temporarily inside a scope. Variables must be used ```let``` keyword. 
 
-
+```
 ## Exercise 06 variables06.rs
 
 ```
@@ -164,7 +164,7 @@ fn main() {
 ```
 
 ### ❌ Why It Needs Fixing
-Constants that are declared are needs to implicity declared
+Constants that are declared are needs to implicitly declared
 
 
 ### ✅ Solution
@@ -178,4 +178,4 @@ fn main() {
 }
 ```
 ### 🧠 Concepts Introduced
-**const** - Till now we have came across variables and different types. Now we are moving to constants ```const```. To declare a constant type annotation is mandatory. Once a constant is declared the values cannot be changed. There ar types of constants Global and local constants. Global constants are mostly decalred at the start of the program. Value can be accessed throughout the program. Local constants can be within the scope of the function block.
+**const** - Till now we have came across variables and different types. Now we are moving to constants ```const```. To declare a constant type annotation is mandatory. Once a constant is declared the values cannot be changed. There are 2  types of constants Global and local constants. Global constants are mostly declared at the start of the program. Value can be accessed throughout the program. Local constants can be within the scope of the function block.
