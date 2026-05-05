@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-81bdd012.js";
+            window.path_to_searchindex_js = "searchindex-7766a3c7.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-6b673b1f.js"></script>
@@ -1264,7 +1264,271 @@ mod tests {
 <p><strong><code>*element</code></strong> - The for loop iterates over <code>&amp;[i32],</code> which means element has the type &amp;i32 (a reference to an integer). You can’t directly multiply a reference by an integer. The asterisk <code>*</code> “dereferences” it, essentially telling Rust, “Go to the memory address this reference points to and grab the actual integer value.” Once you have the raw value, you can multiply it by 2</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="06---move-semantics"><a class="header" href="#06---move-semantics">06 - Move-Semantics</a></h1>
-<p>Coming soon.</p>
+<blockquote>
+<p><strong>Section goal:</strong> - Covers the concepts of Ownership, Reference and Borrowing.</p>
+</blockquote>
+<h2 id="exercise-1--move_semantics1rs"><a class="header" href="#exercise-1--move_semantics1rs">Exercise 1 — <code>move_semantics1.rs</code></a></h2>
+<h3 id="-the-original-code-3"><a class="header" href="#-the-original-code-3">📋 The Original Code</a></h3>
+<pre><code>// TODO: Fix the compiler error in this function.
+fn fill_vec(vec: Vec&lt;i32&gt;) -&gt; Vec&lt;i32&gt; {
+    let vec = vec;
+
+    vec.push(88);
+
+    vec
+}
+
+fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn move_semantics1() {
+        let vec0 = vec![22, 44, 66];
+        let vec1 = fill_vec(vec0);
+        assert_eq!(vec1, vec![22, 44, 66, 88]);
+    }
+}
+
+</code></pre>
+<h3 id="-why-it-needs-fixing-8"><a class="header" href="#-why-it-needs-fixing-8">❌ Why It Needs Fixing</a></h3>
+<p>The compiler will throw an error saying cannot borrow as mutable.</p>
+<h3 id="-solution-9"><a class="header" href="#-solution-9">✅ Solution</a></h3>
+<pre><code>fn fill_vec(vec: Vec&lt;i32&gt;) -&gt; Vec&lt;i32&gt; {
+    let mut vec = vec;
+    vec.push(88);
+    vec
+}
+
+fn main() {
+}
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn move_semantics1() {
+        let vec0 = vec![22, 44, 66];
+        let vec1 = fill_vec(vec0);
+        assert_eq!(vec1, vec![22, 44, 66, 88]);
+    }
+}
+
+</code></pre>
+<h3 id="-concepts-introduced-9"><a class="header" href="#-concepts-introduced-9">🧠 Concepts Introduced</a></h3>
+<p><strong>Move Semantics</strong> - When you <code>fill_vec(vec0)</code> in the teest, <code>vec0</code> is moved into the function. It is not copied. The function <code>fill_vec</code> takes complete ownership of that data in memory. If you tried using <code>vec0</code> again after calling <code>fill_vec(vec0)</code>, the compiler would stop you because <code>vec0</code> no longer owns that data.</p>
+<p><strong>Shadowing</strong> - Writing <code>let mut vec=vec;</code> is called shadowing. You are creating a brand new variable named <code>vec</code> and assigning it the value of old , immuable <code>vec</code> parameters. The new <code>vec</code> shadows(hides) the old one for the4 rest of the function.</p>
+<h2 id="exercise-2--move_semantics2rs"><a class="header" href="#exercise-2--move_semantics2rs">Exercise 2 — <code>move_semantics2.rs</code></a></h2>
+<h3 id="-the-original-code-1-2"><a class="header" href="#-the-original-code-1-2">📋 The Original Code</a></h3>
+<pre><code>fn fill_vec(vec: Vec&lt;i32&gt;) -&gt; Vec&lt;i32&gt; {
+    let mut vec = vec;
+
+    vec.push(88);
+
+    vec
+}
+
+fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // TODO: Make both vectors `vec0` and `vec1` accessible at the same time to
+    // fix the compiler error in the test.
+    #[test]
+    fn move_semantics2() {
+        let vec0 = vec![22, 44, 66];
+
+        let vec1 = fill_vec(vec0);
+
+        assert_eq!(vec0, [22, 44, 66]);
+        assert_eq!(vec1, [22, 44, 66, 88]);
+    }
+}
+
+</code></pre>
+<h3 id="-why-it-needs-fixing-1-6"><a class="header" href="#-why-it-needs-fixing-1-6">❌ Why It Needs Fixing</a></h3>
+<p>Comiler thorw’s a “borrow of moved value” error. You cannot read from or assert against a variable that has already given up its data.</p>
+<h3 id="-solution-1-6"><a class="header" href="#-solution-1-6">✅ Solution</a></h3>
+<pre><code>#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn move_semantics2() {
+        let vec0 = vec![22, 44, 66];
+        let vec1 = fill_vec(vec0.clone());
+        assert_eq!(vec0, [22, 44, 66]);
+        assert_eq!(vec1, [22, 44, 66, 88]);
+    }
+}
+</code></pre>
+<h3 id="-concepts-introduced-1-6"><a class="header" href="#-concepts-introduced-1-6">🧠 Concepts Introduced</a></h3>
+<p><strong><code>clone</code></strong> - In Rust, simple types like integers i32 or booleans are entirely stored on the stack and implements a trait called <code>Copy</code>. When you pass them to a function , they copy automatically. Complex types like <code>Vec</code> or <code>String</code> store data on the heap and do not implement <code>Copy</code>. To duplicate them , they implmenet the <code>Clone</code> trait , which requires you to explicitly call <code>.clone()</code>.</p>
+<p><strong>Deep Copying</strong> -   Using .clone() is an easy way to solve ownership errors, but it comes with a cost. It allocates new memory on the heap and copies every single element over. While it is the correct answer for this specific exercise, in real-world Rust programs with massive vectors, excessive cloning can slow down your code.</p>
+<h2 id="exercise-3--move_semantics3rs"><a class="header" href="#exercise-3--move_semantics3rs">Exercise 3 — <code>move_semantics3.rs</code></a></h2>
+<h3 id="-the-original-code-2-2"><a class="header" href="#-the-original-code-2-2">📋 The Original Code</a></h3>
+<pre><code>// TODO: Fix the compiler error in the function without adding any new line.
+fn fill_vec(vec: Vec&lt;i32&gt;) -&gt; Vec&lt;i32&gt; {
+    vec.push(88);
+
+    vec
+}
+
+fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn move_semantics3() {
+        let vec0 = vec![22, 44, 66];
+        let vec1 = fill_vec(vec0);
+        assert_eq!(vec1, [22, 44, 66, 88]);
+    }
+}
+
+</code></pre>
+<h3 id="-why-it-needs-fixing-2-4"><a class="header" href="#-why-it-needs-fixing-2-4">❌ Why It Needs Fixing</a></h3>
+<p>Compiler throws an error cannot borrow <code>vec</code> as mutable, as it is not declared as mutable.</p>
+<h3 id="-solution-2-5"><a class="header" href="#-solution-2-5">✅ Solution</a></h3>
+<pre><code>fn fill_vec(mut vec: Vec&lt;i32&gt;) -&gt; Vec&lt;i32&gt; {
+    vec.push(88);
+    vec
+}
+
+fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn move_semantics3() {
+        let  vec0 = vec![22, 44, 66];
+        let vec1 = fill_vec(vec0);
+        assert_eq!(vec1, [22, 44, 66, 88]);
+    }
+}
+
+
+</code></pre>
+<h3 id="-concepts-introduced-2-5"><a class="header" href="#-concepts-introduced-2-5">🧠 Concepts Introduced</a></h3>
+<p><strong>Mutable Parameters in Signatures</strong> - When you write mut vec: Vec<i32>, you are telling the compiler: “Take ownership of the data passed into this function, and also allow me to modify that data while I own it.”</i32></p>
+<p>This is structurally doing the exact same thing as let mut vec = vec; inside the function body, but it is much cleaner and saves you a line of code. It is a very common pattern in Rust when a function takes ownership of a variable and immediately needs to alter it.</p>
+<h2 id="exercise-4--move_semantics4rs"><a class="header" href="#exercise-4--move_semantics4rs">Exercise 4 — <code>move_semantics4.rs</code></a></h2>
+<h3 id="-the-original-code-3-1"><a class="header" href="#-the-original-code-3-1">📋 The Original Code</a></h3>
+<pre><code>fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    // TODO: Fix the compiler errors only by reordering the lines in the test.
+    // Don't add, change or remove any line.
+    #[test]
+    fn move_semantics4() {
+        let mut x = Vec::new();
+        let y = &amp;mut x;
+        let z = &amp;mut x;
+        y.push(42);
+        z.push(13);
+        assert_eq!(x, [42, 13]);
+    }
+}
+</code></pre>
+<h3 id="-why-it-needs-fixing-3-3"><a class="header" href="#-why-it-needs-fixing-3-3">❌ Why It Needs Fixing</a></h3>
+<p>Compiler thorws and error cannot borrow <code>x</code> as mutable more than once at a time</p>
+<h3 id="-solution-3-3"><a class="header" href="#-solution-3-3">✅ Solution</a></h3>
+<pre><code>fn main() {
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn move_semantics4() {
+        let mut x = Vec::new();
+        
+        let y = &amp;mut x;
+        y.push(42);       
+        
+        let z = &amp;mut x;   
+        z.push(13);     
+        
+        assert_eq!(x, [42, 13]); 
+    }
+}
+
+</code></pre>
+<h3 id="-concepts-introduced-3-3"><a class="header" href="#-concepts-introduced-3-3">🧠 Concepts Introduced</a></h3>
+<p><strong>Non-Lexical Lifetimes(NLL)</strong> - You might wonder: “Wait, both y and z are still inside the curly braces of the function. Aren’t they both alive until the function ends?”
+In older versions of Rust, the answer was yes, and this code would have required you to put y inside its own set of curly braces {} to force it to drop.
+However, modern Rust uses Non-Lexical Lifetimes. The compiler is smart enough to look at your code and say, “I see that y.push(42) is the absolute last time y is ever used. I will automatically end y’s borrow right there.” This allows you to immediately create z on the very next line.</p>
+<h2 id="exercise-5--move_semantics5rs"><a class="header" href="#exercise-5--move_semantics5rs">Exercise 5 — <code>move_semantics5.rs</code></a></h2>
+<h3 id="-the-original-code-4"><a class="header" href="#-the-original-code-4">📋 The Original Code</a></h3>
+<pre><code>#![allow(clippy::ptr_arg)]
+
+// TODO: Fix the compiler errors without changing anything except adding or
+// removing references (the character `&amp;`).
+
+// Shouldn't take ownership
+fn get_char(data: String) -&gt; char {
+    data.chars().last().unwrap()
+}
+
+// Should take ownership
+fn string_uppercase(mut data: &amp;String) {
+    data = data.to_uppercase();
+
+    println!("{data}");
+}
+
+fn main() {
+    let data = "Rust is great!".to_string();
+
+    get_char(data);
+
+    string_uppercase(&amp;data);
+}
+</code></pre>
+<h3 id="-why-it-needs-fixing-4-2"><a class="header" href="#-why-it-needs-fixing-4-2">❌ Why It Needs Fixing</a></h3>
+<p>Comiler throws multiple errors</p>
+<h3 id="-solution-4-3"><a class="header" href="#-solution-4-3">✅ Solution</a></h3>
+<pre><code>#![allow(clippy::ptr_arg)]
+fn get_char(data: &amp;String) -&gt; char {
+    data.chars().last().unwrap()
+}
+
+// Takes ownership instead of borrowing.
+fn string_uppercase(mut data: String) {
+    data = data.to_uppercase();
+
+    println!("{data}");
+}
+
+fn main() {
+    let data = "Rust is great!".to_string();
+
+    get_char(&amp;data);
+
+    string_uppercase(data);
+}
+
+</code></pre>
+<h3 id="-concepts-introduced-4-3"><a class="header" href="#-concepts-introduced-4-3">🧠 Concepts Introduced</a></h3>
+<p><strong>Borrowing<code>&amp;</code></strong> -  When get_char(&amp;data) is called, it passes an immutable reference to the data. Think of it like giving the function a pair of binoculars to look at the string. It can read the characters, but it doesn’t own the string, so it doesn’t destroy it when the function ends. This allows main to keep using data afterward.</p>
+<p><strong>Taking Ownership (Moving)</strong> - When string_uppercase(data) is called, main completely hands over the data variable. string_uppercase now owns it. Because it owns it (and it was marked mut), it is free to completely overwrite it with a new uppercase version. Once string_uppercase finishes executing, that memory is cleaned up and dropped forever.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="07--structs"><a class="header" href="#07--structs">07 — Structs</a></h1>
 <p>Coming soon.</p>
