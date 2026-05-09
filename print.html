@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-cf806474.js";
+            window.path_to_searchindex_js = "searchindex-80594595.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-6b673b1f.js"></script>
@@ -1531,13 +1531,351 @@ fn main() {
 <p><strong>Taking Ownership (Moving)</strong> - When string_uppercase(data) is called, main completely hands over the data variable. string_uppercase now owns it. Because it owns it (and it was marked mut), it is free to completely overwrite it with a new uppercase version. Once string_uppercase finishes executing, that memory is cleaned up and dropped forever.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="07--structs"><a class="header" href="#07--structs">07 — Structs</a></h1>
+<blockquote>
+<p><strong>Section goal:</strong> To get familiar with <code>struct</code>  and <code>impl</code></p>
+</blockquote>
+<h2 id="exercise-1--structs1rs"><a class="header" href="#exercise-1--structs1rs">Exercise 1 — <code>structs1.rs </code></a></h2>
+<h3 id="-the-original-code-5"><a class="header" href="#-the-original-code-5">📋 The Original Code</a></h3>
+<pre><code>struct ColorRegularStruct {
+    // TODO: Add the fields that the test `regular_structs` expects.
+    // What types should the fields have? What are the minimum and maximum values for RGB colors?
+}
+
+struct ColorTupleStruct(/* TODO: Add the fields that the test `tuple_structs` expects */);
+
+#[derive(Debug)]
+struct UnitStruct;
+
+fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn regular_structs() {
+        // TODO: Instantiate a regular struct.
+        // let green =
+
+        assert_eq!(green.red, 0);
+        assert_eq!(green.green, 255);
+        assert_eq!(green.blue, 0);
+    }
+
+    #[test]
+    fn tuple_structs() {
+        // TODO: Instantiate a tuple struct.
+        // let green =
+
+        assert_eq!(green.0, 0);
+        assert_eq!(green.1, 255);
+        assert_eq!(green.2, 0);
+    }
+
+    #[test]
+    fn unit_structs() {
+        // TODO: Instantiate a unit struct.
+        // let unit_struct =
+        let message = format!("{unit_struct:?}s are fun!");
+
+        assert_eq!(message, "UnitStructs are fun!");
+    }
+}
+</code></pre>
+<h3 id="-why-it-needs-fixing-9"><a class="header" href="#-why-it-needs-fixing-9">❌ Why It Needs Fixing</a></h3>
+<h3 id="-solution-10"><a class="header" href="#-solution-10">✅ Solution</a></h3>
+<pre><code>struct ColorRegularStruct {
+    red: u8,
+    green: u8,
+    blue: u8,
+}
+
+struct ColorTupleStruct(u8, u8, u8);
+
+#[derive(Debug)]
+struct UnitStruct;
+
+fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn regular_structs() {
+        let green = ColorRegularStruct {
+            red: 0,
+            green: 255,
+            blue: 0,
+        };
+
+        assert_eq!(green.red, 0);
+        assert_eq!(green.green, 255);
+        assert_eq!(green.blue, 0);
+    }
+
+    #[test]
+    fn tuple_structs() {
+        let green = ColorTupleStruct(0, 255, 0);
+
+        assert_eq!(green.0, 0);
+        assert_eq!(green.1, 255);
+        assert_eq!(green.2, 0);
+    }
+
+    #[test]
+    fn unit_structs() {
+        let unit_struct = UnitStruct;
+        let message = format!("{unit_struct:?}s are fun!");
+
+        assert_eq!(message, "UnitStructs are fun!");
+    }
+}
+</code></pre>
+<h3 id="-concepts-introduced-10"><a class="header" href="#-concepts-introduced-10">🧠 Concepts Introduced</a></h3>
+<p><strong>Tuple Structure</strong> -These are hybrid between a struct and a tuple. You give the struct tname, but you leave the fields unnamed. You instantiate them with parenthesis () and access their data using indices like <code>.0</code> , <code>.1</code> and <code>.2</code>.</p>
+<h2 id="exercise-2--structs2rs"><a class="header" href="#exercise-2--structs2rs">Exercise 2 — <code>structs2.rs </code></a></h2>
+<h3 id="-the-original-code-1-3"><a class="header" href="#-the-original-code-1-3">📋 The Original Code</a></h3>
+<pre><code>#[derive(Debug)]
+struct Order {
+    name: String,
+    year: u32,
+    made_by_phone: bool,
+    made_by_mobile: bool,
+    made_by_email: bool,
+    item_number: u32,
+    count: u32,
+}
+
+fn create_order_template() -&gt; Order {
+    Order {
+        name: String::from("Bob"),
+        year: 2019,
+        made_by_phone: false,
+        made_by_mobile: false,
+        made_by_email: true,
+        item_number: 123,
+        count: 0,
+    }
+}
+
+fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn your_order() {
+        let order_template = create_order_template();
+
+        // TODO: Create your own order using the update syntax and template above!
+        // let your_order =
+
+        assert_eq!(your_order.name, "Hacker in Rust");
+        assert_eq!(your_order.year, order_template.year);
+        assert_eq!(your_order.made_by_phone, order_template.made_by_phone);
+        assert_eq!(your_order.made_by_mobile, order_template.made_by_mobile);
+        assert_eq!(your_order.made_by_email, order_template.made_by_email);
+        assert_eq!(your_order.item_number, order_template.item_number);
+        assert_eq!(your_order.count, 1);
+    }
+}
+</code></pre>
+<h3 id="-why-it-needs-fixing-1-7"><a class="header" href="#-why-it-needs-fixing-1-7">❌ Why It Needs Fixing</a></h3>
+<p>Compiler throws error of <code>UnitStruct</code> never constructed</p>
+<h3 id="-solution-1-7"><a class="header" href="#-solution-1-7">✅ Solution</a></h3>
+<pre><code>#[derive(Debug)]
+struct Order {
+    name: String,
+    year: u32,
+    made_by_phone: bool,
+    made_by_mobile: bool,
+    made_by_email: bool,
+    item_number: u32,
+    count: u32,
+}
+
+fn create_order_template() -&gt; Order {
+    Order {
+        name: String::from("Bob"),
+        year: 2019,
+        made_by_phone: false,
+        made_by_mobile: false,
+        made_by_email: true,
+        item_number: 123,
+        count: 0,
+    }
+}
+
+fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn your_order() {
+        let order_template = create_order_template();
+
+        let your_order = Order {
+            name: String::from("Hacker in Rust"),
+            count: 1,
+            // Struct update syntax
+            ..order_template
+        };
+
+        assert_eq!(your_order.name, "Hacker in Rust");
+        assert_eq!(your_order.year, order_template.year);
+        assert_eq!(your_order.made_by_phone, order_template.made_by_phone);
+        assert_eq!(your_order.made_by_mobile, order_template.made_by_mobile);
+        assert_eq!(your_order.made_by_email, order_template.made_by_email);
+        assert_eq!(your_order.item_number, order_template.item_number);
+        assert_eq!(your_order.count, 1);
+    }
+}
+</code></pre>
+<h3 id="-concepts-introduced-1-7"><a class="header" href="#-concepts-introduced-1-7">🧠 Concepts Introduced</a></h3>
+<p><strong>Struct Update Syntax(..)</strong>
+When you are creating a new instance of a struct that shares most of its data with an existing instance, writing out every single field again is tedious.</p>
+<p>Rust allows you to use the .. syntax to say: “For any fields I haven’t explicitly named here, just grab the values from this other instance.”</p>
+<p>A couple of important rules about this syntax:</p>
+<p>It must come last: The ..order_template must be placed at the very end of your struct initialization. You cannot put a comma after it.</p>
+<p>It respects Ownership: Because the name field in this struct is a String (which does not implement the Copy trait), if you had used ..order_template to copy the name over, the original order_template would lose ownership of that string and you wouldn’t be able to use it anymore! However, because you explicitly overrode name with a brand new string, and all the copied fields (u32 and bool) are simple stack-allocated values that copy automatically, your order_template actually remains fully valid and usable after this line.</p>
+<h2 id="exercise-3--structs3rs"><a class="header" href="#exercise-3--structs3rs">Exercise 3 — <code>structs3.rs </code></a></h2>
+<h3 id="-the-original-code-2-3"><a class="header" href="#-the-original-code-2-3">📋 The Original Code</a></h3>
+<pre><code>// Structs contain data, but can also have logic. In this exercise, we have
+// defined the `Fireworks` struct and a couple of functions that work with it.
+// Turn these free-standing functions into methods and associated functions
+// to express that relationship more clearly in the code.
+
+#![deny(clippy::use_self)] // practice using the `Self` type
+
+#[derive(Debug)]
+struct Fireworks {
+    rockets: usize,
+}
+
+// TODO: Turn this function into an associated function on `Fireworks`.
+fn new_fireworks() -&gt; Fireworks {
+    Fireworks { rockets: 0 }
+}
+
+// TODO: Turn this function into a method on `Fireworks`.
+fn add_rockets(fireworks: &amp;mut Fireworks, rockets: usize) {
+    fireworks.rockets += rockets
+}
+
+// TODO: Turn this function into a method on `Fireworks`.
+fn start(fireworks: Fireworks) -&gt; String {
+    "🚀".repeat(fireworks.rockets)
+}
+
+fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn start_some_fireworks() {
+        let f = Fireworks::new();
+        assert_eq!(f.start(), "");
+
+        let mut f = Fireworks::new();
+        f.add_rockets(3);
+        assert_eq!(f.start(), "🚀🚀🚀");
+
+        let mut f = Fireworks::new();
+        f.add_rockets(7);
+        // We don't use method syntax in the last test to ensure the `start`
+        // function takes ownership of the fireworks.
+        assert_eq!(Fireworks::start(f), "🚀🚀🚀🚀🚀🚀🚀");
+    }
+}
+</code></pre>
+<h3 id="-why-it-needs-fixing-2-5"><a class="header" href="#-why-it-needs-fixing-2-5">❌ Why It Needs Fixing</a></h3>
+<p>Compiler throws multiple errors</p>
+<h3 id="-solution-2-6"><a class="header" href="#-solution-2-6">✅ Solution</a></h3>
+<pre><code>#![deny(clippy::use_self)] // practice using the `Self` type
+
+#[derive(Debug)]
+struct Fireworks {
+    rockets: usize,
+}
+
+// Create an implementation block for the Fireworks struct
+impl Fireworks {
+    // Associated function: Doesn't take `self`. Acts like a constructor.
+    fn new() -&gt; Self {
+        Self { rockets: 0 }
+    }
+
+    // Method: Takes a mutable reference to `self` to modify the struct's data.
+    fn add_rockets(&amp;mut self, rockets: usize) {
+        self.rockets += rockets;
+    }
+
+    // Method: Takes ownership of `self`, consuming the struct.
+    fn start(self) -&gt; String {
+        "🚀".repeat(self.rockets)
+    }
+}
+
+fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn start_some_fireworks() {
+        let f = Fireworks::new();
+        assert_eq!(f.start(), "");
+
+        let mut f = Fireworks::new();
+        f.add_rockets(3);
+        assert_eq!(f.start(), "🚀🚀🚀");
+
+        let mut f = Fireworks::new();
+        f.add_rockets(7);
+        assert_eq!(Fireworks::start(f), "🚀🚀🚀🚀🚀🚀🚀");
+    }
+
+
+</code></pre>
+<h3 id="-concepts-introduced-2-6"><a class="header" href="#-concepts-introduced-2-6">🧠 Concepts Introduced</a></h3>
+<p><strong>1. The impl Block</strong>
+Everything related to the behavior of a struct goes inside an impl StructName {} block. This tells the compiler that these functions belong specifically to that struct.</p>
+<p><strong>2. Associated Functions (Self) vs. Methods (self)</strong></p>
+<p>Associated Functions: Notice that new() doesn’t have self as its first parameter. Because it doesn’t take a specific instance to run, you call it using double colons on the type itself: Fireworks::new(). This is exactly how String::new() or Vec::new() works!</p>
+<p>Methods: add_rockets and start both take some form of self as their first parameter. This allows you to call them on a specific instance of the struct using dot notation: f.start().</p>
+<p><strong>3. The Three Types of self</strong>
+Notice how we handled the self parameter in the methods based on the ownership rules you learned earlier:</p>
+<p>&amp;mut self (in add_rockets): We need to change the data inside the struct, so we take a mutable borrow.</p>
+<p>self (in start): We take full ownership of the struct. Once f.start() is called, f is consumed and destroyed. You can’t use it again!</p>
+<p>(Not used here, but for completeness) &amp;self: Used when you just want to read the data inside the struct without changing it or destroying it.</p>
+<p><strong>4. The Capital Self Alias</strong>
+At the top of the file, #![deny(clippy::use_self)] is a linter rule that yells at you if you type out the word Fireworks inside the impl block. Instead, Rust prefers you use the capital-S Self keyword. Self is just an alias for “whatever type this impl block is for.” If you rename the struct later, you don’t have to rewrite the return types inside the impl block!</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="08--enums"><a class="header" href="#08--enums">08 — Enums</a></h1>
 <blockquote>
 <p><strong>Section goal:</strong> Getting familiar to pattern matching and enum.</p>
 </blockquote>
 <h2 id="exercise-1--enums1rs"><a class="header" href="#exercise-1--enums1rs">Exercise 1 — <code>enums1.rs</code></a></h2>
-<h3 id="-the-original-code-5"><a class="header" href="#-the-original-code-5">📋 The Original Code</a></h3>
+<h3 id="-the-original-code-6"><a class="header" href="#-the-original-code-6">📋 The Original Code</a></h3>
 <pre><code>#[derive(Debug)]
 enum Message {
     // TODO: Define a few types of messages as used below.
@@ -1552,9 +1890,9 @@ fn main() {
 }
 
 </code></pre>
-<h3 id="-why-it-needs-fixing-9"><a class="header" href="#-why-it-needs-fixing-9">❌ Why It Needs Fixing</a></h3>
+<h3 id="-why-it-needs-fixing-10"><a class="header" href="#-why-it-needs-fixing-10">❌ Why It Needs Fixing</a></h3>
 <p>In main function multiple variants are declared but nothing inside Message block</p>
-<h3 id="-solution-10"><a class="header" href="#-solution-10">✅ Solution</a></h3>
+<h3 id="-solution-11"><a class="header" href="#-solution-11">✅ Solution</a></h3>
 <pre><code>#[derive(Debug)]
 enum Message {
     Resize,
@@ -1573,10 +1911,10 @@ fn main() {
 }
 
 </code></pre>
-<h3 id="-concepts-introduced-10"><a class="header" href="#-concepts-introduced-10">🧠 Concepts Introduced</a></h3>
+<h3 id="-concepts-introduced-11"><a class="header" href="#-concepts-introduced-11">🧠 Concepts Introduced</a></h3>
 <p><strong><code>enum</code></strong> - An <code>enum</code> is a way to define a custom data type by explicitly listing out all of its possible variants. It is Rust’s way of saying, “A Message  can be a Resize, OR a Move, OR an Echo.. but it can only ever be exactly one of those things at a time.</p>
 <h2 id="exercise-2--enums2rs"><a class="header" href="#exercise-2--enums2rs">Exercise 2 — <code>enums2.rs</code></a></h2>
-<h3 id="-the-original-code-1-3"><a class="header" href="#-the-original-code-1-3">📋 The Original Code</a></h3>
+<h3 id="-the-original-code-1-4"><a class="header" href="#-the-original-code-1-4">📋 The Original Code</a></h3>
 <pre><code>#[derive(Debug)]
 struct Point {
     x: u64,
@@ -1612,9 +1950,9 @@ fn main() {
 }
 
 </code></pre>
-<h3 id="-why-it-needs-fixing-1-7"><a class="header" href="#-why-it-needs-fixing-1-7">❌ Why It Needs Fixing</a></h3>
+<h3 id="-why-it-needs-fixing-1-8"><a class="header" href="#-why-it-needs-fixing-1-8">❌ Why It Needs Fixing</a></h3>
 <p>The enum is empty and the compiler doesn’t know what these variables are or what data they are allowed to hold</p>
-<h3 id="-solution-1-7"><a class="header" href="#-solution-1-7">✅ Solution</a></h3>
+<h3 id="-solution-1-8"><a class="header" href="#-solution-1-8">✅ Solution</a></h3>
 <pre><code>#[derive(Debug)]
 struct Point {
     x: u64,
@@ -1653,12 +1991,12 @@ fn main() {
     }
 }
 </code></pre>
-<h3 id="-concepts-introduced-1-7"><a class="header" href="#-concepts-introduced-1-7">🧠 Concepts Introduced</a></h3>
+<h3 id="-concepts-introduced-1-8"><a class="header" href="#-concepts-introduced-1-8">🧠 Concepts Introduced</a></h3>
 <p><strong>Enums with Data</strong> - Unlike many other languages where an enum is just an integer under the hood, Rust enums can pack complex data directly inside the variant. This means you don’t need a bunch of separate structs to handle different types of message; you can bundle them all under a single <code>Message</code> umbrella type</p>
 <p><em><strong>Struct-like(<code>Resize</code>)</strong></em> - You can define named fields directly inside the enum variant
 <em><strong>Tuple-like(<code>Move</code>,<code>Echo </code>, <code>ChangeColor)</code></strong></em>- You can just list the data types in paraentheses. It can be a single built in type like String  or a custom Point struct</p>
 <h2 id="exercise-3--enums3rs"><a class="header" href="#exercise-3--enums3rs">Exercise 3 — <code>enums3.rs</code></a></h2>
-<h3 id="-the-original-code-2-3"><a class="header" href="#-the-original-code-2-3">📋 The Original Code</a></h3>
+<h3 id="-the-original-code-2-4"><a class="header" href="#-the-original-code-2-4">📋 The Original Code</a></h3>
 <pre><code>struct Point {
     x: u64,
     y: u64,
@@ -1749,9 +2087,9 @@ mod tests {
 }
 
 </code></pre>
-<h3 id="-why-it-needs-fixing-2-5"><a class="header" href="#-why-it-needs-fixing-2-5">❌ Why It Needs Fixing</a></h3>
+<h3 id="-why-it-needs-fixing-2-6"><a class="header" href="#-why-it-needs-fixing-2-6">❌ Why It Needs Fixing</a></h3>
 <p>The <code>process</code> method received a <code>Message</code> enum , but it currently does nothing. You need to inspect which variant of <code>Message</code> was passed in, extract the data hiding inside the variant, and pass that data to the correct state-updating method</p>
-<h3 id="-solution-2-6"><a class="header" href="#-solution-2-6">✅ Solution</a></h3>
+<h3 id="-solution-2-7"><a class="header" href="#-solution-2-7">✅ Solution</a></h3>
 <pre><code>struct Point {
     x: u64,
     y: u64,
@@ -1859,7 +2197,7 @@ mod tests {
 }
 
 </code></pre>
-<h3 id="-concepts-introduced-2-6"><a class="header" href="#-concepts-introduced-2-6">🧠 Concepts Introduced</a></h3>
+<h3 id="-concepts-introduced-2-7"><a class="header" href="#-concepts-introduced-2-7">🧠 Concepts Introduced</a></h3>
 <p><strong>Pattern Matching &amp; Exhaustiveness</strong>
 The match keyword in Rust is incredibly powerful. Unlike a switch statement in other languages, Rust’s match is exhaustive. This means the compiler forces you to handle every single possible variant of the Message enum. If you forget to add a line for Message::Quit, your code will simply refuse to compile. This eliminates entire classes of runtime bugs where an event is accidentally ignored.</p>
 <p><strong>Destructuring Data</strong>
