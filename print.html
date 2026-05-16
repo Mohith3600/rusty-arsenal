@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-80594595.js";
+            window.path_to_searchindex_js = "searchindex-a517f11e.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-6b673b1f.js"></script>
@@ -2205,7 +2205,296 @@ Notice how we wrote Message::Resize { width, height }.
 When the match statement sees that the incoming message is a Resize variant, it automatically cracks open the variant and creates two new, temporary variables (width and height) containing the data that was trapped inside. The fat arrow =&gt; then passes those newly freed variables directly into your self.resize(width, height) method.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="09--strings"><a class="header" href="#09--strings">09 — Strings</a></h1>
-<p>Coming soon.</p>
+<h2 id="exercise-1--strings1rs"><a class="header" href="#exercise-1--strings1rs">Exercise 1 — <code>strings1.rs</code></a></h2>
+<h3 id="-the-original-code-7"><a class="header" href="#-the-original-code-7">📋 The Original Code</a></h3>
+<pre><code>// TODO: Fix the compiler error without changing the function signature.
+fn current_favorite_color() -&gt; String {
+    "blue"
+}
+
+fn main() {
+    let answer = current_favorite_color();
+    println!("My current favorite color is {answer}");
+}
+
+</code></pre>
+<h3 id="-why-it-needs-fixing-11"><a class="header" href="#-why-it-needs-fixing-11">❌ Why It Needs Fixing</a></h3>
+<p>When you run the code the compiler throws an error. Compiler expects to return a String return type “blue” is &amp;str</p>
+<h3 id="-solution-12"><a class="header" href="#-solution-12">✅ Solution</a></h3>
+<pre><code>fn current_favorite_color() -&gt; String {
+   "blue".to_string()
+  //String::from("blue")
+}
+
+fn main() {
+    let answer = current_favorite_color();
+    println!("My current favorite color is {answer}");
+}
+
+</code></pre>
+<h3 id="-concepts-introduced-12"><a class="header" href="#-concepts-introduced-12">🧠 Concepts Introduced</a></h3>
+<p><strong>&amp;str(String slice)</strong> - Think of string slice as a borrowed view from the memory.
+WHen you write <code>"blue</code>, it is hardcoded directly into your compiled program’s binary. It is fast, fixed in size and immutable. You are just borrowing a reference to that specific spot in the binary memory.</p>
+<p><strong>String</strong> - Think of it as owned, growable text buffer.
+It lives on the heap.Because it is on heap, you can modify it, append to it and pass ownership of it around your program.</p>
+<p>When you use String::from(“blue”), Rust asks the computer for some heap memory, copies the word “blue” from the binary into that new memory space, and hands you the “ownership” of that new space.</p>
+<h2 id="exercise-2--strings2rs"><a class="header" href="#exercise-2--strings2rs">Exercise 2 — <code>strings2.rs</code></a></h2>
+<h3 id="-the-original-code-1-5"><a class="header" href="#-the-original-code-1-5">📋 The Original Code</a></h3>
+<pre><code>// TODO: Fix the compiler error in the `main` function without changing this function.
+fn is_a_color_word(attempt: &amp;str) -&gt; bool {
+    attempt == "green" || attempt == "blue" || attempt == "red"
+}
+
+fn main() {
+    let word = String::from("green"); // Don't change this line.
+
+    if is_a_color_word(word) {
+        println!("That is a color word I know!");
+    } else {
+        println!("That is not a color word I know.");
+    }
+}
+</code></pre>
+<h3 id="-why-it-needs-fixing-1-9"><a class="header" href="#-why-it-needs-fixing-1-9">❌ Why It Needs Fixing</a></h3>
+<p>Compiler expects <code>&amp;word</code> and found String so program will not run.</p>
+<h3 id="-solution-1-9"><a class="header" href="#-solution-1-9">✅ Solution</a></h3>
+<pre><code>fn is_a_color_word(attempt: &amp;str) -&gt; bool {
+    attempt == "green" || attempt == "blue" || attempt == "red"
+}
+
+fn main() {
+    let word = String::from("green");
+
+    if is_a_color_word(&amp;word) {
+        //             ^ added to have `&amp;String` which is automatically
+        //               coerced to `&amp;str` by the compiler.
+        println!("That is a color word I know!");
+    } else {
+        println!("That is not a color word I know.");
+    }
+}
+
+</code></pre>
+<h3 id="-concepts-introduced-1-9"><a class="header" href="#-concepts-introduced-1-9">🧠 Concepts Introduced</a></h3>
+<p><strong>Deref Corecion</strong><br>When you call is_a_color_word(&amp;word), the type you are passing is &amp;String.
+The function expects &amp;str.
+Rust automatically performs Deref Coercion to convert your reference to a String (&amp;String) into a string slice (&amp;str). It knows how to cleanly slice the whole string to make the types match</p>
+<h2 id="exercise-3--strings3rs"><a class="header" href="#exercise-3--strings3rs">Exercise 3 — <code>strings3.rs</code></a></h2>
+<h3 id="-the-original-code-2-5"><a class="header" href="#-the-original-code-2-5">📋 The Original Code</a></h3>
+<pre><code>fn trim_me(input: &amp;str) -&gt; &amp;str {
+    // TODO: Remove whitespace from both ends of a string.
+}
+
+fn compose_me(input: &amp;str) -&gt; String {
+    // TODO: Add " world!" to the string! There are multiple ways to do this.
+}
+
+fn replace_me(input: &amp;str) -&gt; String {
+    // TODO: Replace "cars" in the string with "balloons".
+}
+
+fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn trim_a_string() {
+        assert_eq!(trim_me("Hello!     "), "Hello!");
+        assert_eq!(trim_me("  What's up!"), "What's up!");
+        assert_eq!(trim_me("   Hola!  "), "Hola!");
+        assert_eq!(trim_me("Hi!"), "Hi!");
+    }
+
+    #[test]
+    fn compose_a_string() {
+        assert_eq!(compose_me("Hello"), "Hello world!");
+        assert_eq!(compose_me("Goodbye"), "Goodbye world!");
+    }
+
+    #[test]
+    fn replace_a_string() {
+        assert_eq!(
+            replace_me("I think cars are cool"),
+            "I think balloons are cool",
+        );
+        assert_eq!(
+            replace_me("I love to look at cars"),
+            "I love to look at balloons",
+        );
+    }
+}
+
+</code></pre>
+<h3 id="-why-it-needs-fixing-2-7"><a class="header" href="#-why-it-needs-fixing-2-7">❌ Why It Needs Fixing</a></h3>
+<p>Multiple compiler errors</p>
+<h3 id="-solution-2-8"><a class="header" href="#-solution-2-8">✅ Solution</a></h3>
+<pre><code>fn trim_me(input: &amp;str) -&gt; &amp;str {
+    input.trim()
+}
+
+fn compose_me(input: &amp;str) -&gt; String {
+    // The macro `format!` has the same syntax as `println!`, but it returns a
+    // string instead of printing it to the terminal.
+    // Equivalent to `input.to_string() + " world!"`
+    format!("{input} world!")
+}
+
+fn replace_me(input: &amp;str) -&gt; String {
+    input.replace("cars", "balloons")
+}
+
+fn main() {
+    // You can optionally experiment here.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn trim_a_string() {
+        assert_eq!(trim_me("Hello!     "), "Hello!");
+        assert_eq!(trim_me("  What's up!"), "What's up!");
+        assert_eq!(trim_me("   Hola!  "), "Hola!");
+        assert_eq!(trim_me("Hi!"), "Hi!");
+    }
+
+    #[test]
+    fn compose_a_string() {
+        assert_eq!(compose_me("Hello"), "Hello world!");
+        assert_eq!(compose_me("Goodbye"), "Goodbye world!");
+    }
+
+    #[test]
+    fn replace_a_string() {
+        assert_eq!(
+            replace_me("I think cars are cool"),
+            "I think balloons are cool",
+        );
+        assert_eq!(
+            replace_me("I love to look at cars"),
+            "I love to look at balloons",
+        );
+    }
+}
+
+</code></pre>
+<h3 id="-concepts-introduced-2-8"><a class="header" href="#-concepts-introduced-2-8">🧠 Concepts Introduced</a></h3>
+<p><strong>trim_me</strong>
+Trimming a string does not require creating any new text or allocating new heap memory. Rust simply looks at the original borrowed string and returns a smaller borrowed view that ignores the spaces on the ends. It’s incredibly fast and efficient because no data is copied.</p>
+<p><strong>compose_me</strong>
+Why it returns an owned String: You are adding brand-new data (“ world!“) to the existing text. The original string slice cannot grow because it is fixed in size. Therefore, you must allocate new memory on the heap to hold the combined text, which means returning a brand new String. We used format! here because it cleanly allocates that new String for you.</p>
+<p><strong>replace_me</strong>
+Similar to compose_me, when you replace “cars” (4 bytes) with “balloons” (8 bytes), the resulting text is physically larger than the original text. You cannot squeeze 8 bytes into the 4 bytes of memory that the original slice was looking at. Because the size changes, Rust must build a brand new heap-allocated String to hold the result.</p>
+<h2 id="exercise-4--strings4rs"><a class="header" href="#exercise-4--strings4rs">Exercise 4 — <code>strings4.rs</code></a></h2>
+<h3 id="-the-original-code-3-2"><a class="header" href="#-the-original-code-3-2">📋 The Original Code</a></h3>
+<pre><code>// Calls of this function should be replaced with calls of `string_slice` or `string`.
+fn placeholder() {}
+
+fn string_slice(arg: &amp;str) {
+    println!("{arg}");
+}
+
+fn string(arg: String) {
+    println!("{arg}");
+}
+
+// TODO: Here are a bunch of values - some are `String`, some are `&amp;str`.
+// Your task is to replace `placeholder(…)` with either `string_slice(…)`
+// or `string(…)` depending on what you think each value is.
+fn main() {
+    placeholder("blue");
+
+    placeholder("red".to_string());
+
+    placeholder(String::from("hi"));
+
+    placeholder("rust is fun!".to_owned());
+
+    placeholder("nice weather".into());
+
+    placeholder(format!("Interpolation {}", "Station"));
+
+    // WARNING: This is byte indexing, not character indexing.
+    // Character indexing can be done using `s.chars().nth(INDEX)`.
+    placeholder(&amp;String::from("abc")[0..1]);
+
+    placeholder("  hello there ".trim());
+
+    placeholder("Happy Monday!".replace("Mon", "Tues"));
+
+    placeholder("mY sHiFt KeY iS sTiCkY".to_lowercase());
+}
+</code></pre>
+<h3 id="-why-it-needs-fixing-3-4"><a class="header" href="#-why-it-needs-fixing-3-4">❌ Why It Needs Fixing</a></h3>
+<p>Multiple compile errors</p>
+<h3 id="-solution-3-4"><a class="header" href="#-solution-3-4">✅ Solution</a></h3>
+<pre><code>fn string_slice(arg: &amp;str) {
+    println!("{arg}");
+}
+
+fn string(arg: String) {
+    println!("{arg}");
+}
+
+fn main() {
+    // 1. String literal
+    string_slice("blue");
+
+    // 2. Converted to String
+    string("red".to_string());
+
+    // 3. Explicit String creation
+    string(String::from("hi"));
+
+    // 4. Owned copy of a slice
+    string("rust is fun!".to_owned());
+
+    // 5. Converted into a String via the Into trait
+    string("nice weather".into());
+
+    // 6. format! macro creates a new String
+    string(format!("Interpolation {}", "Station"));
+
+    // 7. Slicing a String
+    string_slice(&amp;String::from("abc")[0..1]);
+
+    // 8. trim() returns a smaller view (slice)
+    string_slice("  hello there ".trim());
+
+    // 9. replace() allocates new memory
+    string("Happy Monday!".replace("Mon", "Tues"));
+
+    // 10. to_lowercase() allocates new memory
+    string("mY sHiFt KeY iS sTiCkY".to_lowercase());
+}
+
+</code></pre>
+<h3 id="-concepts-introduced-3-4"><a class="header" href="#-concepts-introduced-3-4">🧠 Concepts Introduced</a></h3>
+<p><strong>The ToString and ToOwned Traits</strong>
+Code: “red”.to_string() and “rust is fun!”.to_owned()</p>
+<p>Concept: In Rust, traits are like shared behaviors that different types can agree to use.</p>
+<p>The ToString trait allows any type that can be formatted as text to turn itself into a String.</p>
+<p>The ToOwned trait is slightly more general; it allows any borrowed data (like a slice) to be cloned into owned data on the heap. For strings, they do exactly the same thing.</p>
+<p><strong>The Into Trait and Type Inference</strong>
+Code: “nice weather”.into()</p>
+<p>Concept: This is one of Rust’s most powerful features. The Into trait is used for automatic type conversions. Notice how .into() doesn’t actually say what it is converting into.</p>
+<p>Because you passed it to string(arg: String), the Rust compiler looks at the function signature, sees it needs a String, and says, “Ah, I will automatically use the &amp;str -&gt; String conversion implementation.” It figures it out from the context!</p>
+<p><strong>String Slicing (Byte Ranges)</strong>
+Code: &amp;String::from(“abc”)[0..1]</p>
+<p>Concept: You can borrow a specific chunk of a string using range syntax [start..end].</p>
+<p>The Danger: As the warning in the code mentioned, this operates on raw bytes, not characters. If you slice a multi-byte character (like an emoji or an accented letter) right down the middle, your Rust program will literally panic and crash. Slicing with [..] is powerful but must be used carefully.</p>
+<p><strong>The “Cost” of String Methods</strong>
+This exercise taught you to look at a method and intuitively guess if it costs memory (Heap Allocation) or is “free” (Pointer adjustment).</p>
+<p>Zero-Cost Views (trim): Because spaces exist at the ends, Rust can just give you a smaller slice (&amp;str) that starts after the leading spaces and ends before the trailing spaces. It doesn’t move or copy any underlying data.</p>
+<p>Allocating Mutations (replace, to_lowercase): String slices (&amp;str) are immutable. You cannot change uppercase to lowercase inside a &amp;str. Therefore, methods that alter the text must ask the OS for new memory, copy the altered text into it, and return a brand new, owned String.</p>
+<p>** Macros vs. Functions**
+Code: format!(…)</p>
+<p>Concept: You used a macro (denoted by the !). Unlike normal functions which take fixed types, macros in Rust actually generate new Rust code behind the scenes before your program compiles. format! takes all your references, calculates exactly how much memory it needs, asks for that memory once, and builds a brand new String for you.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="10--modules"><a class="header" href="#10--modules">10 — Modules</a></h1>
 <p>Coming soon.</p>
